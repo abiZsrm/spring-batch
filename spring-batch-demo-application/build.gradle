@@ -28,5 +28,8 @@ dependencies {
 
     implementation 'org.springframework.batch:spring-batch-core:4.1.1.RELEASE'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    // For Reading file paths.
+    implementation 'commons-io:commons-io:2.6'
 }
 

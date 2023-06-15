@@ -1,5 +1,6 @@
 package com.customerBatch;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -13,6 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.File;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 @EnableBatchProcessing
@@ -37,11 +41,12 @@ public class CustomerBatch implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        File file = new File("C:\\Users\\abhis\\Desktop\\spring-batch\\customer_update_12.csv");
-        System.out.println("Does the file exist?");
-        System.out.println(file.exists());
+        String filePath = "inputs/customer_update_13.csv";
 
-        JobParameters jobParameters = new JobParametersBuilder().addString("customerUpdateFile", file.getAbsolutePath()).toJobParameters();
+        URI sampleUri = this.getClass().getClassLoader().getResource(filePath).toURI();
+        String stringPath = Paths.get(sampleUri).toString();
+
+        JobParameters jobParameters = new JobParametersBuilder().addString("customerUpdateFile", stringPath).toJobParameters();
 
         JobExecution execution = jobLauncher.run(job, jobParameters);
     }
